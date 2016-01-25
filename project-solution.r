@@ -1,23 +1,17 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Course 5 - Project 1
+# Analyzing Activity Monitoring Data
 
 # Loading libraries
 library(dplyr)
 library(ggplot2)
 
-## Loading and preprocessing the data
-
+# Loading and preprocessing the data
 # 1. Load the data
 data_raw <- read.csv("data/activity.csv")
 # 2. Removing NAs
 data <- na.omit(data_raw)
 
-## What is mean total number of steps taken per day?
-
+# What is mean total number of steps taken per day?
 # 1. Calculate the total number of steps taken per day
 data_by_day <- group_by(data, date)
 steps_by_day <- summarise(data_by_day, total = sum(steps))
@@ -27,8 +21,7 @@ hist(steps_by_day$total, main = "Total Number of Steps per Day", xlab = "Steps p
 # 3. Calculate and report the mean and median of the total number of steps taken per day
 print(summary(steps_by_day))
 
-## What is the average daily activity pattern?
-
+# What is the average daily activity pattern?
 # 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 # Organizing the data
 steps_time_series <- aggregate(steps ~ interval, data, mean)
@@ -41,8 +34,7 @@ plot(steps_time_series$interval, steps_time_series$steps, type='l',
 max_steps <- which.max(steps_time_series$steps)
 print(steps_time_series[max_steps,])
 
-## Imputing missing values
-
+# Imputing missing values
 # 1. Calculate and report the total number of missing values in the dataset.
 print(sum(is.na(data_raw)))
 # 2. Devise a strategy for filling in all of the missing values in the dataset.
@@ -56,8 +48,7 @@ hist(data_new$steps, main="Histogram of total number of steps each day",
 print(mean(data_new$steps))
 print(median(data_new$steps))
 
-## Are there differences in activity patterns between weekdays and weekends?
-
+# Are there differences in activity patterns between weekdays and weekends?
 # 1. Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 data_new['type_of_day'] <- weekdays(as.Date(data_new$date))
 data_new$type_of_day[data_new$type_of_day  %in% c('Saturday','Sunday') ] <- "weekend"
