@@ -69,7 +69,7 @@ data_new$type_of_day <- as.factor(data_new$type_of_day)
 # Calculate average steps by interval across all days
 plot_data <- aggregate(steps ~ interval + type_of_day, data_new, mean)
 
-# creat a plot
+# Create a plot
 qplot(interval, 
       steps, 
       data = plot_data, 
@@ -78,3 +78,4 @@ qplot(interval,
       ylab = "Number of steps", 
       main = "") +
   facet_wrap(~ type_of_day, ncol = 1)
+  
